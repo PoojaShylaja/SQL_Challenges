@@ -37,4 +37,23 @@ SELECT * FROM brands;
 /******************************************* SOLUTION ***************************************************/
 
 
-SELECT 
+WITH CTE AS (
+			SELECT * ,
+				CASE
+					WHEN brand1 < brand2 THEN CONCAT(brand1,brand2,year)
+										 ELSE CONCAT(brand2,brand1,year) 
+				END AS pair_id
+			FROM brands
+			),
+	 CTE_rn AS (
+				SELECT *,
+				ROW_NUMBER() OVER( PARTITION BY pair_id ORDER BY pair_id) AS rn
+				FROM CTE
+				)
+	SELECT  brand1,brand2,year,custom1,custom2,custom3,custom4
+	FROM CTE_rn
+	WHERE rn = 1 OR
+	(custom1 <> custom3 AND custom2 <> custom4)
+
+--here we can compare varchar that is its first alphabet of the given word is compared to the first alphabet of the second given word
+

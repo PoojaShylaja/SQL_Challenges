@@ -1,0 +1,5 @@
+--Weather Observation Station 14
+
+SELECT CONVERT(DECIMAL(10,4), MAX(LAT_N))
+FROM STATION
+WHERE LAT_N < 137.2345;
